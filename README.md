@@ -1,8 +1,6 @@
 Reusable Custom WordPress Meta Boxes
 ====================================
 
-### No longer supported - please fork to continue development on your own.
-
 Contributors: [tammyhart](http://github.com/tammyhart)
 
 Original Tutorial Series: (http://wp.tutsplus.com/author/tammy/)
@@ -11,8 +9,10 @@ Original Tutorial Series: (http://wp.tutsplus.com/author/tammy/)
 Latest Update
 -------------
 
-Image and file upload buttons now use the new 3.5 media uploader!
-
+09/04/14
+- Updated deprecated jQuery functions to use the latest standards.
+- Fixed repeatable image fields.
+- Fixed file uploader.
 
 Description
 -----------

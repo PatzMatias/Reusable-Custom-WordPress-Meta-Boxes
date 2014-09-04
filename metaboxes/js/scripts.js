@@ -81,7 +81,6 @@ jQuery(function($) {
             title: 'Choose File',
             multiple: false,
             library: {
-                type: 'file'
             },
             button: {
                 text: 'Use This File'
@@ -135,9 +134,9 @@ jQuery(function($) {
         clone.find('select.chosen').removeAttr('style', '').removeAttr('id', '').removeClass('chzn-done').data('chosen', null).next().remove();
         clone.find('input.regular-text, textarea, select').val('');
         clone.find('input[type=checkbox], input[type=radio]').attr('checked', false);
+		clone.find('img.meta_box_preview_image').attr('src', '');
         row.after(clone);
         
-        clone.find('img.meta_box_preview_image').attr('src', '');
         // increment name and id
         clone.find('input, textarea, select')
                 .attr('name', function(index, name) {

@@ -9,10 +9,9 @@ Original Tutorial Series: (http://wp.tutsplus.com/author/tammy/)
 Latest Update
 -------------
 
-09/04/14
-- Updated deprecated jQuery functions to use the latest standards.
-- Fixed repeatable image fields.
-- Fixed file uploader.
+12/14/15
+- Fixed issue for _post_type_ array not being properly recognized by get_post_type_object()
+
 
 Description
 -----------

@@ -109,12 +109,26 @@ function custom_meta_box_field($field, $meta = null, $repeatable = null) {
         case 'post_list':
         case 'post_chosen':
             echo '<select data-placeholder="Select One" name="' . esc_attr($name) . '[]" id="' . esc_attr($id) . '"', $type == 'post_chosen' ? ' class="chosen"' : '', isset($multiple) && $multiple == true ? ' multiple="multiple"' : '', '>
-					<option value=""></option>'; // Select One
+                    <option value=""></option>'; // Select One
             $posts = get_posts(array('post_type' => $post_type, 'posts_per_page' => -1, 'orderby' => 'name', 'order' => 'ASC'));
-            foreach ($posts as $item)
+            foreach ($posts as $item) :
                 echo '<option value="' . $item->ID . '"' . selected(is_array($meta) && in_array($item->ID, $meta), true, false) . '>' . $item->post_title . '</option>';
-            $post_type_object = get_post_type_object($post_type);
-            echo '</select> &nbsp;<span class="description"><a href="' . admin_url('edit.php?post_type=' . $post_type . '">Manage ' . $post_type_object->label) . '</a></span><br />' . $desc;
+            endforeach;
+            
+            echo '</select> &nbsp;<span class="description">';
+            echo 'Manage: ';
+            if(is_array($post_type)):
+                foreach ( $post_type as $type) : 
+                    $post_type_object = get_post_type_object($type);
+                    $post_label = $post_type_object->label;
+                    echo '<a href="' . admin_url('edit.php?post_type=' . $type . '">' . $post_label) . '</a>&nbsp;';
+                endforeach;
+            else: 
+                $post_type_object = get_post_type_object($post_type);
+                $post_label = $post_type_object->label;
+                echo '<a href="' . admin_url('edit.php?post_type=' . $type . '">' . $post_label) . '</a>&nbsp;';
+            endif;
+            echo '<br />'.$desc.'</span>';
             break;
         // post_checkboxes
         case 'post_checkboxes':
@@ -122,18 +136,45 @@ function custom_meta_box_field($field, $meta = null, $repeatable = null) {
             echo '<ul class="meta_box_items">';
             foreach ($posts as $item)
                 echo '<li><input type="checkbox" value="' . $item->ID . '" name="' . esc_attr($name) . '[]" id="' . esc_attr($id) . '-' . $item->ID . '"', is_array($meta) && in_array($item->ID, $meta) ? ' checked="checked"' : '', ' />
-						<label for="' . esc_attr($id) . '-' . $item->ID . '">' . $item->post_title . '</label></li>';
+                        <label for="' . esc_attr($id) . '-' . $item->ID . '">' . $item->post_title . '</label></li>';
             $post_type_object = get_post_type_object($post_type);
-            echo '</ul> ' . $desc, ' &nbsp;<span class="description"><a href="' . admin_url('edit.php?post_type=' . $post_type . '">Manage ' . $post_type_object->label) . '</a></span>';
+            echo '</ul><span class="description">';
+            echo 'Manage: ';
+            if(is_array($post_type)):
+                foreach ( $post_type as $type) : 
+                    $post_type_object = get_post_type_object($type);
+                    $post_label = $post_type_object->label;
+                    echo '<a href="' . admin_url('edit.php?post_type=' . $type . '">' . $post_label) . '</a>&nbsp;';
+                endforeach;
+            else: 
+                $post_type_object = get_post_type_object($post_type);
+                $post_label = $post_type_object->label;
+                echo '<a href="' . admin_url('edit.php?post_type=' . $post_type . '">' . $post_label) . '</a>';
+            endif;
+            echo '<br />'.$desc.'</span>';
             break;
         // post_drop_sort
         case 'post_drop_sort':
             //areas
-            $post_type_object = get_post_type_object($post_type);
-            echo '<p>' . $desc . ' &nbsp;<span class="description"><a href="' . admin_url('edit.php?post_type=' . $post_type . '">Manage ' . $post_type_object->label) . '</a></span></p><div class="post_drop_sort_areas">';
+           // $post_type_object = get_post_type_object($post_type);
+            echo '<p>' . $desc . ' &nbsp;<span class="description">';
+            echo 'Manage: ';
+            if(is_array($post_type)):
+                foreach ( $post_type as $type) : 
+                    $post_type_object = get_post_type_object($type);
+                    $post_label = $post_type_object->label;
+                    echo '<a href="' . admin_url('edit.php?post_type=' . $type . '">' . $post_label) . '</a>&nbsp;';
+                endforeach;
+            else: 
+                $post_type_object = get_post_type_object($post_type);
+                $post_label = $post_type_object->label;
+                echo '<a href="' . admin_url('edit.php?post_type=' . $post_type . '"> ' . $post_label) . '</a>';
+            endif;
+            echo '</span></p>';
+            echo '<div class="post_drop_sort_areas">';
             foreach ($areas as $area) {
                 echo '<ul id="area-' . $area['id'] . '" class="sort_list">
-						<li class="post_drop_sort_area_name">' . $area['label'] . '</li>';
+                        <li class="post_drop_sort_area_name">' . $area['label'] . '</li>';
                 if (is_array($meta)) {
                     $items = explode(',', $meta[$area['id']]);
                     foreach ($items as $item) {
@@ -142,9 +183,9 @@ function custom_meta_box_field($field, $meta = null, $repeatable = null) {
                     }
                 }
                 echo '</ul>
-					<input type="hidden" name="' . esc_attr($name) . '[' . $area['id'] . ']" 
-					class="store-area-' . $area['id'] . '" 
-					value="', $meta ? $meta[$area['id']] : '', '" />';
+                    <input type="hidden" name="' . esc_attr($name) . '[' . $area['id'] . ']" 
+                    class="store-area-' . $area['id'] . '" 
+                    value="', $meta ? $meta[$area['id']] : '', '" />';
             }
             echo '</div>';
             // source
@@ -155,7 +196,7 @@ function custom_meta_box_field($field, $meta = null, $repeatable = null) {
             }
             $posts = get_posts(array('post_type' => $post_type, 'posts_per_page' => -1, 'post__not_in' => $exclude));
             echo '<ul class="post_drop_sort_source sort_list">
-					<li class="post_drop_sort_area_name">Available ' . $label . '</li>';
+                    <li class="post_drop_sort_area_name">Available ' . $label . '</li>';
             foreach ($posts as $item) {
                 $output = $display == 'thumbnail' ? get_the_post_thumbnail($item->ID, array(204, 30)) : get_the_title($item->ID);
                 echo '<li id="' . $item->ID . '">' . $output . '</li>';

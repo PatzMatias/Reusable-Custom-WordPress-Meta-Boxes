@@ -311,6 +311,13 @@ function custom_meta_box_field($field, $meta = null, $repeatable = null) {
             echo '</table>
 				' . $desc;
             break;
+        //wysiwyg
+        case 'wysiwyg':
+            global $post;
+            $editor_id = $id;
+            $content = get_post_meta($post->ID, $id, true);
+            wp_editor($content, $editor_id);
+            break;
     } //end switch
 }
 

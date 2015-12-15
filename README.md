@@ -9,6 +9,9 @@ Original Tutorial Series: (http://wp.tutsplus.com/author/tammy/)
 Latest Update
 -------------
 
+12/15/15
+- Added WYSIWYG Editor to reusable fields
+
 12/14/15
 - Fixed issue for _post_type_ array not being properly recognized by get_post_type_object()
 
